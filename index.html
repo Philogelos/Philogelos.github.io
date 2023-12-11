@@ -1,7 +1,117 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
 <body>
-<h1>Hello World</h1>
-<p>I'm hosted with GitHub Pages.</p>
+    <canvas id="can" width="1200" height="800" style="border: 11px solid #000;"></canvas>
+
+    <script>
+
+        let c = document.getElementById("can")
+        let ctx = c.getContext("2d")
+        c.width = 1800
+        c.height = 900
+
+        //My Variables
+
+
+        let p1 = {
+            x:50*5,
+            y:50*10,
+            w:150,
+            h:25
+        }
+
+        let k = {
+            x:55,
+            y:300,
+            w:30,
+            h:30
+        }
+        let gravity = true
+
+        //My Functions
+
+
+        function move(e){
+            console.log(e)
+            if(e.key == "d"){
+                k.x += 5
+            }
+            if(e.key == "a"){
+                k.x -= 5
+            }
+            if(e.key==" "){
+                k.y -= 122
+            }
+        }
+
+        // function unzap(e){
+        //     if(e.key==" "){
+        //         zap = false
+        //     }
+        // }
+
+        function draw(){
+            ctx.clearRect(0, 0, c.width, c.height)  //No need if we have Background image
+            // ctx.drawImage(br, 0, 0, c.width, c.height)
+
+            // hero k for kid
+            ctx.fillStyle = "black"
+            ctx.fillRect(k.x, k.y, k.w, k.h)
+            //gravity
+            if(k.y < c.height - 20-k.h && gravity==true){
+                k.y+=10
+            }
+
+            if(k.x > c.width){
+                k.x = 0
+            }
+            if(k.x < 0){
+                k.x = c.width
+            }
+
+            ctx.fillStyle = "green"
+            ctx.fillRect(0, c.height - 20, c.width, 20) //ground
+            //Platform 1
+            ctx.fillRect(p1.x, p1.y, p1.w, p1.h) //platform1
+            if(k.y == p1.y-k.h &&
+               k.x+k.w > p1.x &&
+               k.x < p1.x+p1.w){
+                gravity=false
+            }
+                 //
+            // if(zap==true){
+            //     ctx.fillStyle = "red"
+            //     ctx.fillRect(tankx+30, 0, 5, 220)
+            // }
+
+            //check laser to jet collision
+
+            // if(tankx+30+5 > x &&   //IF -- laser Right > Jet Left; AND
+            //    tankx+30 < x+200 && // laser left < jet Right; AND
+            //    zap==true){         // zap is true, meaning: laser is ON; THEN --
+            //         x = 0 //jet x goes back to 0 - at the left of the canvas
+            //    }
+
+
+
+
+
+
+            requestAnimationFrame(draw)
+        }
+
+        draw()
+
+        document.addEventListener("keydown", move)
+        //document.addEventListener("keyup", unzap)
+
+    </script>
+
+</html>
 </body>
 </html>
